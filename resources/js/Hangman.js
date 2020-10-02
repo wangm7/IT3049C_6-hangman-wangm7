@@ -1,3 +1,5 @@
+//const queryString = require('query-string');
+
 class Hangman {
   constructor(_canvas) {
     if (!_canvas) {
@@ -11,15 +13,15 @@ class Hangman {
   /**
    * This function takes a difficulty string as a patameter
    * would use the Fetch API to get a random word from the Hangman
-   * To get an easy word: https://hangman-micro-service-bpblrjerwh.now.sh?difficulty=easy
-   * To get an medium word: https://hangman-micro-service-bpblrjerwh.now.sh?difficulty=medium
-   * To get an hard word: https://hangman-micro-service-bpblrjerwh.now.sh?difficulty=hard
+   * To get an easy word: https://hangman-micro-service.herokuapp.com//?difficulty=easy
+   * To get an medium word: https://hangman-micro-service.herokuapp.com//?difficulty=medium
+   * To get an hard word: https://hangman-micro-service.herokuapp.com//?difficulty=hard
    * The results is a json object that looks like this:
    *    { word: "book" }
    * */
   getRandomWord(difficulty) {
     return fetch(
-      `https://hangman-micro-service-bpblrjerwh.now.sh?difficulty=${difficulty}`
+      `https://hangman-micro-service.herokuapp.com//?difficulty=${difficulty}`
     )
       .then((r) => r.json())
       .then((r) => r.word);
