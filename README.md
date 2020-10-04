@@ -1,11 +1,11 @@
 Hangman
 =====================
-![Assignment Checks](https://github.com/IT3049C/Hangman/workflows/Assignment%20Checks/badge.svg)
+![Assignment Checks](https://s///github.com/wangm7/IT3049C_6-hangman-wangm7/workflows/Assignment%20Checks/badge.svg)
 
 Instructions to this assignment can be found [here](#).
 
 ## Checklist:
-- [ ] update the assignment checks above to the correct link.
+- [x] update the assignment checks above to the correct link. - Done Automatically
 - [ ] make sure the assignment checks pass
 - [ ] fill out the self evaluation and Reflection
 - [ ] submit the repository link on Canvas
