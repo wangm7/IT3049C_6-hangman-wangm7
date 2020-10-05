@@ -1,11 +1,9 @@
-//const queryString = require('query-string');
-
 class Hangman {
+
   constructor(_canvas) {
     if (!_canvas) {
-      throw new Error(`invalid canvas provided`);
+      throw new Error(`inva lid canvas provided`);
     }
-
     this.canvas = _canvas;
     this.ctx = this.canvas.getContext(`2d`);
   }
@@ -19,42 +17,85 @@ class Hangman {
    * The results is a json object that looks like this:
    *    { word: "book" }
    * */
-  getRandomWord(difficulty) {
-    return fetch(
-      `https://hangman-micro-service.herokuapp.com//?difficulty=${difficulty}`
-    )
-      .then((r) => r.json())
-      .then((r) => r.word);
-  }
 
-  /**
+     /**
    *
    * @param {string} difficulty a difficulty string to be passed to the getRandomWord Function
    * @param {function} next callback function to be called after a word is reveived from the API.
    */
-  start(difficulty, next) {
-    // get word and set it to the class's this.word
-    // clear canvas
-    // draw base
-    // reset this.guesses to empty array
-    // reset this.isOver to false
-    // reset this.didWin to false
+
+  getRandomWord(difficulty) {
+    return fetch(`https://hangman-micro-service.herokuapp.com//?difficulty=${difficulty}`)
+    .then((r) => r.json())
+    .then((r) => console.log(r.word))
   }
+  //    call the game start() method, the callback function should do the following
+  //       1. hide the startWrapper
+  //       2. show the gameWrapper
+  //       3. call the game getWordHolderText and set it to the wordHolderText
+  //       4. call the game getGuessessText and set it to the guessesText
+
+   start(difficulty, next) {
+    // get word and set it to the class's this.word
+    this.word = this.getRandomWord(difficulty);
+    console.log(this.word);
+    // clear canvas
+    this.clearCanvas();
+    // draw base
+    this.drawBase();
+    // reset this.guesses to empty array
+    this.guess.splice(0,this.guess.length);
+    // reset this.isOver to false
+    this.isOver = false;
+    // reset this.didWin to false
+    this.didWin = false;
+  }
+
 
   /**
    *
    * @param {string} letter the guessed letter.
    */
   guess(letter) {
+    this.letter = letter;
+    
     // Check if nothing was provided and throw an error if so
+    try{
     // Check for invalid cases (numbers, symbols, ...) throw an error if it is
+      if(!letter == /[a-zA-Z]/g){
+        throw new Error(letter + " is not letter! You have to input letters!");
+      }
     // Check if more than one letter was provided. throw an error if it is.
+      if(letter.length >= 1 ){
+       throw new Error("You input more than one letter!");
+      }
     // if it's a letter, convert it to lower case for consistency.
+    letter.toLocaleLowerCase();
     // check if this.guesses includes the letter. Throw an error if it has been guessed already.
-    // add the new letter to the guesses array.
+    if(letter == this.guesses){
+      throw new Error("You have guessed this letter!");
+    }
+    //add the new letter to the guesses array.
+    for(let i=0; i < letter.length; i++){
+        if(letter.charAt(i) === " "){
+            this.guess.push(" ");
+        }
+        else{
+            this.guess.push(new Letter(letter.charAt(i)));
+        };
+    };
     // check if the word includes the guessed letter:
-    //    if it's is call checkWin()
-    //    if it's not call onWrongGuess()
+    this.guess.forEach(function(e){
+      if(e.letter !== undefined){
+          e.checkGuess(guess);
+      }
+  });
+
+    } catch (error) {
+      console.error(error);
+      alert(error + error.stack);
+    }
+
   }
 
   checkWin() {
@@ -67,7 +108,9 @@ class Hangman {
    * drawHead, drawBody, drawRightArm, drawLeftArm, drawRightLeg, or drawLeftLeg.
    * if the number wrong guesses is 6, then also set isOver to true and didWin to false.
    */
-  onWrongGuess() {}
+  onWrongGuess() {
+
+  }
 
   /**
    * This function will return a string of the word placeholder
@@ -75,8 +118,15 @@ class Hangman {
    * i.e.: if the word is BOOK, and the letter O has been guessed, this would return _ O O _
    */
   getWordHolderText() {
-    return;
+    this.guessed = false;
+    if(this.guessed){
+      return this.letter + " ";
   }
+  else{
+      return "_ ";
+  };
+}
+
 
   /**
    * This function returns a string of all the previous guesses, seperated by a comma
