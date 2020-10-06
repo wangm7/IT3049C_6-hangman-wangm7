@@ -37,9 +37,6 @@ let game = new Hangman(canvas);
 
   });
 
-  startGame.addEventListener('submit', function(e){
-
-  });
   // add a submit Event Listener to the guessForm
   //    get the guess input
   //    call the game guess() method
@@ -53,12 +50,18 @@ let game = new Hangman(canvas);
   //      2. disable the guessButton
   //      3. show the resetGame button
   // if the game is won or lost, show an alert.
-  guessForm.addEventListener(`submit`, function (e) {});
+  guessForm.addEventListener(`submit`, function (e) {
+    e.preventDefault();
+    const letter = guessInput.value;
+    game.guess(letter);
+  });
 
   // add a click Event Listener to the resetGame button
   //    show the startWrapper
   //    hide the gameWrapper
-  resetGame.addEventListener(`click`, function (e) {});
+  resetGame.addEventListener(`click`, function (e) {
+
+  });
 } catch (error) {
   console.error(error);
   alert(error + error.stack);

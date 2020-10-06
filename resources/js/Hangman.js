@@ -1,3 +1,4 @@
+
 class Hangman {
 
   constructor(_canvas) {
@@ -24,11 +25,10 @@ class Hangman {
    * @param {function} next callback function to be called after a word is reveived from the API.
    */
   
-  getRandomWord(difficulty) {
+   getRandomWord(difficulty) {
     return fetch(`https://hangman-micro-service.herokuapp.com//?difficulty=${difficulty}`)
     .then((r) => r.json())
     .then((r) => r.word)
-    //.then((r) => console.log(r))
   }
   //    call the game start() method, the callback function should do the following
   //       1. hide the startWrapper
@@ -38,16 +38,22 @@ class Hangman {
 
    start(difficulty, next) {
     // get word and set it to the class's this.word
-    this.word =  this.getRandomWord(difficulty).then((r) => console.log(r));
+    this.word = this.getRandomWord(difficulty).then((res) => console.log(res)); 
+    /**
+     *     
+     * this.word = () => {
+      this.getRandomWord(difficulty)
+      .then(res => console.log(res))
+    } 
+     */
+    console.log(this.word);
     // clear canvas
     this.clearCanvas();
     // draw base
     this.drawBase();
     // reset this.guesses to empty array
-    if(!this.guess.length){
-      this.guess.splice(0, this.guess.length);
-      console.log("check this guess" + this.guess)
-    }
+    this.guesses = [];
+    this.getWordHolderText();
     // reset this.isOver to false
     this.isOver = false;
     // reset this.didWin to false
@@ -60,42 +66,46 @@ class Hangman {
    * @param {string} letter the guessed letter.
    */
   guess(letter) {
-    this.letter = letter;
     
+    //let guesses = [];
+    let letterWordArr =[]
+    this.letter = letter;
+    console.log("you have input " + letter);
+
     // Check if nothing was provided and throw an error if so
     try{
     // Check for invalid cases (numbers, symbols, ...) throw an error if it is
-      if(!letter == /[a-zA-Z]/g){
+      if(!letter.match(/[a-zA-Z]/)){
         throw new Error(letter + " is not letter! You have to input letters!");
-      }
+      } 
     // Check if more than one letter was provided. throw an error if it is.
-      if(letter.length >= 1 ){
-       throw new Error("You input more than one letter!");
-      }
-    // if it's a letter, convert it to lower case for consistency.
-    letter.toLocaleLowerCase();
-    // check if this.guesses includes the letter. Throw an error if it has been guessed already.
-    if(letter == this.guesses){
-      throw new Error("You have guessed this letter!");
-    }
-    //add the new letter to the guesses array.
-    for(let i=0; i < letter.length; i++){
-        if(letter.charAt(i) === " "){
-            this.guess.push(" ");
+      if(letter.length > 1 ){
+        console.log("You input more than one letter!");
+       //throw new Error("You input more than one letter!");
         }
-        else{
-            this.guess.push(new Letter(letter.charAt(i)));
-        };
-    };
+      // if it's a letter, convert it to lower case for consistency.
+      if(letter == letter.toUpperCase()){
+        letter = letter.toLowerCase();
+        //console.log(letter);
+      }
+      // check if this.guesses includes the letter. Throw an error if it has been guessed already.
+
+      if(!this.guesses.includes(letter)){
+        //add the new letter to the guesses array.
+        this.guesses.push(letter);
+        console.log("the arr " + this.guesses + " now includes " + letter )
+    }else{
+        throw new Error("You have guessed this letter!");
+    }
+      
     // check if the word includes the guessed letter:
-    this.guess.forEach(function(e){
-      if(e.letter !== undefined){
-          e.checkGuess(guess);
+    this.guesses.forEach(function(e){
+      if(e.this.guesses !== undefined){
+
       }
   });
 
     } catch (error) {
-      console.error(error);
       alert(error + error.stack);
     }
 
@@ -122,7 +132,7 @@ class Hangman {
    */
   getWordHolderText() {
     this.guessed = false;
-    if(this.guessed){
+    if(!this.guessed){
       return this.letter + " ";
   }
   else{
@@ -148,9 +158,7 @@ class Hangman {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     //hide the startWrapper
     //show the gameWrapper
-    //let gamepanel = document.querySelectorAll('.hidden');
-    //console.log(gamepanel);
-    //gamepanel[0].remove('.hidden');
+
     if(startWrapper.style.display ==="none"){
       startWrapper.style.display = "block";
     } else {
@@ -158,6 +166,9 @@ class Hangman {
       gameWrapper.style.display = 'block';
     }
 
+    //let gamepanel = document.querySelectorAll('.hidden');
+    //console.log(gamepanel);
+    //gamepanel[0].remove('.hidden');
   }
 
   /**
