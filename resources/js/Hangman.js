@@ -23,11 +23,12 @@ class Hangman {
    * @param {string} difficulty a difficulty string to be passed to the getRandomWord Function
    * @param {function} next callback function to be called after a word is reveived from the API.
    */
-
+  
   getRandomWord(difficulty) {
     return fetch(`https://hangman-micro-service.herokuapp.com//?difficulty=${difficulty}`)
     .then((r) => r.json())
-    .then((r) => console.log(r.word))
+    .then((r) => r.word)
+    //.then((r) => console.log(r))
   }
   //    call the game start() method, the callback function should do the following
   //       1. hide the startWrapper
@@ -37,14 +38,16 @@ class Hangman {
 
    start(difficulty, next) {
     // get word and set it to the class's this.word
-    this.word = this.getRandomWord(difficulty);
-    console.log(this.word);
+    this.word =  this.getRandomWord(difficulty).then((r) => console.log(r));
     // clear canvas
     this.clearCanvas();
     // draw base
     this.drawBase();
     // reset this.guesses to empty array
-    this.guess.splice(0,this.guess.length);
+    if(!this.guess.length){
+      this.guess.splice(0, this.guess.length);
+      console.log("check this guess" + this.guess)
+    }
     // reset this.isOver to false
     this.isOver = false;
     // reset this.didWin to false
@@ -143,6 +146,18 @@ class Hangman {
    */
   clearCanvas() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    //hide the startWrapper
+    //show the gameWrapper
+    //let gamepanel = document.querySelectorAll('.hidden');
+    //console.log(gamepanel);
+    //gamepanel[0].remove('.hidden');
+    if(startWrapper.style.display ==="none"){
+      startWrapper.style.display = "block";
+    } else {
+      startWrapper.style.display = "none";
+      gameWrapper.style.display = 'block';
+    }
+
   }
 
   /**
