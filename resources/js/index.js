@@ -32,7 +32,7 @@ let game = new Hangman(canvas);
     const difficulty = difficultySelect.value;
     event.preventDefault();
     // call the game start() method, the callback function should do the following
-     game.start(difficulty, function(){ 
+    game.start(difficulty, function(){ 
     //       1. hide the startWrapper
     startWrapper.classList.add('hidden');
     //       2. show the gameWrapper
@@ -97,6 +97,10 @@ let game = new Hangman(canvas);
   startWrapper.classList.remove(`hidden`);
   //    hide the gameWrapper
   gameWrapper.classList.add(`hidden`);
+
+  guessInput.removeAttribute('disabled');
+  guessButton.removeAttribute('disabled');
+
   });
 } catch (error) {
   console.error(error);

@@ -262,7 +262,7 @@ class Hangman {
     console.log("RightArm")
     this.ctx.beginPath();
     this.ctx.moveTo(250, 175);
-    this.ctx.lineTo(170, 100);
+    this.ctx.lineTo(330, 100); //liineTo(x=➡, y=⬇)
     this.ctx.stroke();
   }
 
@@ -270,26 +270,27 @@ class Hangman {
   drawLeftArm() {
     console.log("LeftArm")
     this.ctx.beginPath();
-    this.ctx.moveTo(250, 200);
-    this.ctx.lineTo(200, 100);
+    this.ctx.moveTo(250, 175);
+    this.ctx.lineTo(170, 100);    //liineTo(x=➡, y=⬇)
     this.ctx.stroke();
+
   }
 
   drawLeftLeg() {
     console.log("LeftLeg")
     this.ctx.beginPath();
-    this.ctx.moveTo(250, 175);
-    this.ctx.lineTo(300, 200);
+    this.ctx.moveTo(245, 190);
+    this.ctx.lineTo(170, 250);
     this.ctx.stroke();
-
   }
 
   drawRightLeg() {
     console.log("RightLeg")
     this.ctx.beginPath();
-    this.ctx.moveTo(250, 140);
-    this.ctx.lineTo(200, 190);
+    this.ctx.moveTo(255, 190);
+    this.ctx.lineTo(330, 250);
     this.ctx.stroke();
+
 
   }
 }
